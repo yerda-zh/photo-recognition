@@ -1,9 +1,12 @@
-import React from 'react'
+import './faceRecognition.css';
 
-const FaceRecognition = () => {
+const FaceRecognition = ({box, imageUrl}) => {
   return (
-    <div className='center '>
-      <img alt='image' src='https://www.freecodecamp.org/news/content/images/2022/02/arrows-2889040_1920.jpg'/>
+    <div className='center ma'>
+      <div className='absolute mt2'>
+        <img id='inputimage' alt='' src={imageUrl} width='500px' height='auto'/>
+        <div className='bounding-box' style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
+      </div>
     </div>
   )
 }
