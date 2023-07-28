@@ -8,6 +8,7 @@ import ParticlesBg from 'particles-bg'
 import { useState } from 'react';
 import SignIn from './components/sign-in/SignIn';
 import Register from './components/register/Register';
+import { useEffect } from 'react';
 
 const returnClarifaiRequestOptions = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
