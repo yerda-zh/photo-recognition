@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-const SignIn = ({onRouteChange}) => {
+const SignIn = ({onRouteChange, loadUser}) => {
     const [signInEmail, setSignInEmail] = useState('');
     const [signInPassword, setSignInPassword] = useState('');
 
@@ -21,9 +21,10 @@ const SignIn = ({onRouteChange}) => {
                 password: signInPassword
             })
         }).then(res=>res.json())
-        .then(data => {
-            if(data === 'success') {
-                onRouteChange('home');
+        .then(user => {
+            if (user.id) {
+              loadUser(user);
+              onRouteChange('home');
             }
         })
         // I am fetching to the backend server, the fetch by default makes GET request so I have to specify to use post

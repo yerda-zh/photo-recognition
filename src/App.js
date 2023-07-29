@@ -8,7 +8,6 @@ import ParticlesBg from 'particles-bg'
 import { useState } from 'react';
 import SignIn from './components/sign-in/SignIn';
 import Register from './components/register/Register';
-import { useEffect } from 'react';
 
 const returnClarifaiRequestOptions = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
@@ -58,6 +57,23 @@ function App() {
   const [box, setBox] = useState({});
   const [route, setRoute] = useState('signin');
   const [isSignedIn, setIsSignIn] = useState(false);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  });
+
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    })
+  }
   
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -86,7 +102,24 @@ function App() {
 
     fetch("https://api.clarifai.com/v2/models/face-detection/outputs", returnClarifaiRequestOptions(input))
       .then(response => response.json())
-      .then( response => displayFaceBox(calculateFaceLocation(response)))
+      .then( response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: user.id
+            })
+          }).then(res => res.json())
+          .then(count => {
+            setUser({
+              ...user,
+              entries: count
+            })
+          });
+        }
+        displayFaceBox(calculateFaceLocation(response));
+      })
       .catch(error => console.log(error));
   }
 
@@ -106,13 +139,13 @@ function App() {
       {route === 'home' 
         ? <div>
             <Logo/>
-            <Rank/>
+            <Rank name={user.name} entries={user.entries}/>
             <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
             <FaceRecognition box={box} imageUrl={imageUrl}/>
           </div>
         : (route === 'signin'
-            ? <SignIn onRouteChange={onRouteChange}/>
-            : <Register onRouteChange={onRouteChange}/>
+            ? <SignIn loadUser={loadUser} onRouteChange={onRouteChange}/>
+            : <Register loadUser={loadUser} onRouteChange={onRouteChange}/>
           )
       }
       
