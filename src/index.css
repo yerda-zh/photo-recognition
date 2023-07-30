@@ -1,9 +1,9 @@
 body {
   margin: 0;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(90deg, #8badea 0%, #4A55A2 100%);
+  background: linear-gradient(90deg, #0F1016 0%, #192331 100%);
 }
 
 button {
