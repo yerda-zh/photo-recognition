@@ -1,0 +1,55 @@
+.FaceRecognitionDiv {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.FaceRecognitionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 1rem;
+
+    p {
+        color: #fff;
+        font-size: 1.2rem;
+        position: relative;
+        text-transform: capitalize;
+        margin: .4rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.FaceDiv {
+    margin: 1rem;
+    position: relative;
+    img {
+        width: 500px;
+        height: auto;
+        border-radius: .6rem;
+    }
+    img[src=''] {
+        display: none;
+    }
+}
+
+.bounding-box {
+    position: absolute;
+    box-shadow: 0 0 0 2px #D0FEFB inset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}
+
+@media screen and (max-width:650px) {
+    .FaceDiv {
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

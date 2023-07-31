@@ -1,4 +1,4 @@
-.SignInContainer {
+.RegisterContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
 }
-.SignInDiv {
+.RegisterDiv {
     box-shadow: rgba(255, 255, 255, 0.3) 0px 0px 15px 2px;
     display: flex;
     flex-direction: column;
@@ -60,7 +60,7 @@
         }
 
         button {
-            margin-top: 2rem;
+            margin: 2rem 0;
             border-radius: 1.3rem;
             padding: .7rem 6rem;
             font-size: 1.1rem;
@@ -101,13 +101,13 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .SignInDiv {
+    .RegisterDiv {
         width: 30rem;
     }
 }
 
 @media screen and (max-width: 500px) {
-    .SignInDiv {
+    .RegisterDiv {
         box-shadow: none;
         width: 100%;
 

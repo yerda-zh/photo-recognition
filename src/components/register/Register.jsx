@@ -1,29 +1,34 @@
 import { useState } from "react";
-import "./signin.scss";
+import './register.scss';
 
-const SignIn = ({onRouteChange, loadUser}) => {
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
+const Register = ({onRouteChange, loadUser}) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
   const onEmailChange = (event) => {
-    setSignInEmail(event.target.value);
+    setEmail(event.target.value);
   };
   const onPasswordChange = (event) => {
-    setSignInPassword(event.target.value);
+    setPassword(event.target.value);
   };
 
   const onSubmitSignIn = () => {
-    fetch("http://localhost:3000/signin", {
+    fetch("http://localhost:3000/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: signInEmail,
-        password: signInPassword,
+        email: email,
+        password: password,
+        name: name,
       }),
     })
       .then((res) => res.json())
       .then((user) => {
-        if (user.id) {
+        if (user) {
           loadUser(user);
           onRouteChange("home");
         }
@@ -35,11 +40,20 @@ const SignIn = ({onRouteChange, loadUser}) => {
     // using res.json(). the data i get from that I am checking whether the sign in was successful
     // so that the user can sign in
   };
+
   return (
-    <div className="SignInContainer">
-      <div className="SignInDiv">
-        <h1>Sign In</h1>
+    <div className="RegisterContainer">
+      <div className="RegisterDiv">
+        <h1>Register</h1>
         <div className="formInput">
+          <p>Name</p>
+          <input
+            placeholder="Enter Name"
+            type="text"
+            name="name"
+            id="name"
+            onChange={onNameChange}
+          />
           <p>Email</p>
           <input
             placeholder="Enter Email"
@@ -57,15 +71,12 @@ const SignIn = ({onRouteChange, loadUser}) => {
             onChange={onPasswordChange}
           />
           <button type="submit" onClick={onSubmitSignIn}>
-            Sign In
+            Register
           </button>
         </div>
-        <button className="Register" onClick={() => onRouteChange("register")}>
-          Register
-        </button>
       </div>
     </div>
   );
 };
 
-export default SignIn;
+export default Register;

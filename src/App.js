@@ -1,6 +1,5 @@
 import './App.css';
 import Navigation from './components/navigation/Navigation';
-import Logo from './components/logo/Logo';
 import ImageLinkForm from './components/image-link-form/ImageLinkForm';
 import FaceRecognition from './components/face-recognition/FaceRecognition';
 import Rank from './components/rank/Rank';
@@ -57,6 +56,7 @@ function App() {
   const [box, setBox] = useState({});
   const [route, setRoute] = useState('signin');
   const [isSignedIn, setIsSignIn] = useState(false);
+  const [celebrity, setCelebrity] = useState('');
   const [user, setUser] = useState({
     id: '',
     name: '',
@@ -74,7 +74,7 @@ function App() {
       joined: data.joined,
     })
   }
-  
+
   const onInputChange = (event) => {
     setInput(event.target.value);
   }
@@ -116,16 +116,24 @@ function App() {
               ...user,
               entries: count
             })
-          });
+          }).catch(console.log);
         }
         displayFaceBox(calculateFaceLocation(response));
       })
       .catch(error => console.log(error));
+
+    fetch("https://api.clarifai.com/v2/models/celebrity-face-recognition/outputs", returnClarifaiRequestOptions(input))
+    .then(response => response.json())
+    .then(data=>data.outputs[0].data.concepts[0].name)
+    .then(name => setCelebrity(name))
+    .catch(error => console.log(error));
   }
 
   const onRouteChange = (route) => {
     if(route === 'signout') {
       setIsSignIn(false);
+      setImageUrl('');
+      setCelebrity('');
     } else if(route === 'home') {
       setIsSignIn(true);
     }
@@ -134,22 +142,19 @@ function App() {
 
   return (
     <div className="App">
-      {/* <ParticlesBg color="#FFFFFF" num={80} type="cobweb" bg={true}/> */}
       <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange}/>
       {route === 'home' 
         ? <div>
-            <Logo/>
+            <ParticlesBg color="#ffffff" num={40} type="cobweb" bg={true}/>
             <Rank name={user.name} entries={user.entries}/>
             <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
-            <FaceRecognition box={box} imageUrl={imageUrl}/>
+            <FaceRecognition celebrity={celebrity} box={box} imageUrl={imageUrl}/>
           </div>
         : (route === 'signin'
             ? <SignIn loadUser={loadUser} onRouteChange={onRouteChange}/>
             : <Register loadUser={loadUser} onRouteChange={onRouteChange}/>
           )
       }
-      
-      
     </div>
   );
 }

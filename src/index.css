@@ -4,6 +4,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(90deg, #0F1016 0%, #192331 100%);
+  box-sizing: border-box;
 }
 
 button {

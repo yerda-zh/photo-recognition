@@ -1,0 +1,82 @@
+.LinkFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 1.5rem;
+
+    p {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 400;
+    }
+
+}
+
+.InputContainer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    input {
+        width: 40%;
+        padding: 0.7rem 1rem;
+        border-radius: 1.2rem 0 0 1.2rem;
+        border: none;
+        background: rgba(213, 227, 255, 0.3);
+        transition: 0.3s ease-in-out;
+        color: #66FCF1;
+
+        &::placeholder {
+            color: #fff;
+        }
+        &:focus {
+            background: rgba(208, 254, 251, 1);
+            color: #192331;
+            transition: 0.3s ease-in-out;
+
+            &::placeholder {
+                color: #192331;
+            }
+        }
+    }
+    button {
+        border-radius: 0 1.2rem 1.2rem 0;
+        border: none;
+        padding: 0 2rem;
+        background: #fff;
+        color: #192331;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: #66FCF1;
+            z-index: -1;
+            transition: width 0.3s;
+        }
+        &:hover::before {
+            width: 100%;
+        }
+
+        &:active {
+            transform: scale(0.95);
+            transition: 0.1s;
+        }
+    }
+}
+
+@media screen and (max-width:540px) {
+    .InputContainer {
+        input {
+            width: 90%;
+        }
+    }
+}
