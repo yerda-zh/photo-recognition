@@ -10,7 +10,7 @@ import Register from './components/register/Register';
 
 const returnClarifaiRequestOptions = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
-  const PAT = "520da3c8ea1e44c5889b4c46e1c7829e";
+  const PAT = process.env.CLARIFAI_KEY;
   // Specify the correct user_id/app_id pairings
   const USER_ID = "yerda";
   const APP_ID = "ai-recognition";
