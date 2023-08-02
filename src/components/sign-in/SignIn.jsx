@@ -4,6 +4,7 @@ import "./signin.scss";
 const SignIn = ({onRouteChange, loadUser}) => {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const onEmailChange = (event) => {
     setSignInEmail(event.target.value);
@@ -20,14 +21,19 @@ const SignIn = ({onRouteChange, loadUser}) => {
         email: signInEmail,
         password: signInPassword,
       }),
+    }).then((res) => {
+      if (res.status === 400) {
+        setMessage('Incorrect form submission');
+      }
+      return (res.json());
     })
-      .then((res) => res.json())
       .then((user) => {
         if (user.id) {
           loadUser(user);
           onRouteChange("home");
+          setMessage('');
         }
-      });
+      })
     // I am fetching to the backend server, the fetch by default makes GET request so I have to specify to use post
     // I set method to post, and converted the object into json so that I can send it to the backend
     // then I get a response from back end. I setted up so that the backend would send json response
@@ -47,6 +53,7 @@ const SignIn = ({onRouteChange, loadUser}) => {
             name="email-address"
             id="email-address"
             onChange={onEmailChange}
+            required
           />
           <p>Password</p>
           <input
@@ -55,6 +62,7 @@ const SignIn = ({onRouteChange, loadUser}) => {
             name="password"
             id="password"
             onChange={onPasswordChange}
+            required
           />
           <button type="submit" onClick={onSubmitSignIn}>
             Sign In
@@ -64,6 +72,7 @@ const SignIn = ({onRouteChange, loadUser}) => {
           Register
         </button>
       </div>
+      <p className="Message">{message}</p>
     </div>
   );
 };

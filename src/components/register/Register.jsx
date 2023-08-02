@@ -5,6 +5,7 @@ const Register = ({onRouteChange, loadUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
 
   const onNameChange = (event) => {
     setName(event.target.value);
@@ -26,9 +27,14 @@ const Register = ({onRouteChange, loadUser}) => {
         name: name,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 400) {
+          setMessage('Incorrect form submission');
+        }
+        return (res.json());
+      })
       .then((user) => {
-        if (user) {
+        if (user.id) {
           loadUser(user);
           onRouteChange("home");
         }
@@ -53,6 +59,7 @@ const Register = ({onRouteChange, loadUser}) => {
             name="name"
             id="name"
             onChange={onNameChange}
+            required
           />
           <p>Email</p>
           <input
@@ -61,6 +68,7 @@ const Register = ({onRouteChange, loadUser}) => {
             name="email-address"
             id="email-address"
             onChange={onEmailChange}
+            required
           />
           <p>Password</p>
           <input
@@ -69,12 +77,14 @@ const Register = ({onRouteChange, loadUser}) => {
             name="password"
             id="password"
             onChange={onPasswordChange}
+            required
           />
           <button type="submit" onClick={onSubmitSignIn}>
             Register
           </button>
         </div>
       </div>
+      <p className="Message">{message}</p>
     </div>
   );
 };

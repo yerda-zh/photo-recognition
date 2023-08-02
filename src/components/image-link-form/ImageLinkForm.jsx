@@ -5,7 +5,7 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
     <div className='LinkFormContainer'>
 
         <p>
-            {'SharpTech will detect celebrity faces in your pictures. Give it a try!'}
+            {'SharpTech AI will detect celebrity faces in your pictures. Give it a try!'}
         </p>
 
         <div className='InputContainer'>

@@ -124,7 +124,7 @@ function App() {
 
     fetch("https://api.clarifai.com/v2/models/celebrity-face-recognition/outputs", returnClarifaiRequestOptions(input))
     .then(response => response.json())
-    .then(data=>data.outputs[0].data.concepts[0].name)
+    .then(data=> data.outputs[0].data.concepts[0].name + ', ' + data.outputs[0].data.concepts[0].value.toPrecision(2)*100 + '% - probability')
     .then(name => setCelebrity(name))
     .catch(error => console.log(error));
   }
