@@ -57,6 +57,8 @@ function App() {
   const [route, setRoute] = useState('signin');
   const [isSignedIn, setIsSignIn] = useState(false);
   const [celebrity, setCelebrity] = useState('');
+  const [fetching, setFetching] = useState(false);
+  const [calculated, setCalculated] = useState(false);
   const [user, setUser] = useState({
     id: '',
     name: '',
@@ -89,7 +91,6 @@ function App() {
       topRow: clarifaiFace.top_row * height,
       rightCol: width - (clarifaiFace.right_col * width),
       bottomRow: height - (clarifaiFace.bottom_row * height)
-      
     }
   };
 
@@ -99,6 +100,9 @@ function App() {
 
   const onButtonSubmit = () => {
     setImageUrl(input);
+    setFetching(true);
+    setCalculated(false);
+    setCelebrity('');
 
     fetch("https://api.clarifai.com/v2/models/face-detection/outputs", returnClarifaiRequestOptions(input))
       .then(response => response.json())
@@ -118,7 +122,9 @@ function App() {
             })
           }).catch(console.log);
         }
+        setFetching(false);
         displayFaceBox(calculateFaceLocation(response));
+        setCalculated(true);
       })
       .catch(error => console.log(error));
 
@@ -148,7 +154,7 @@ function App() {
             <ParticlesBg color="#ffffff" num={40} type="cobweb" bg={true}/>
             <Rank name={user.name} entries={user.entries}/>
             <ImageLinkForm onInputChange={onInputChange} onButtonSubmit={onButtonSubmit}/>
-            <FaceRecognition celebrity={celebrity} box={box} imageUrl={imageUrl}/>
+            <FaceRecognition calculated={calculated} fetching={fetching} celebrity={celebrity} box={box} imageUrl={imageUrl}/>
           </div>
         : (route === 'signin'
             ? <SignIn loadUser={loadUser} onRouteChange={onRouteChange}/>

@@ -1,17 +1,18 @@
 import './faceRecognition.scss';
+import { DotWave } from '@uiball/loaders';
 
-const FaceRecognition = ({box, imageUrl, celebrity}) => {
+const FaceRecognition = ({box, imageUrl, celebrity, fetching, calculated}) => {
   return (
     <div className='FaceRecognitionDiv'>
       <div className="FaceRecognitionContainer">
-        <p>{celebrity}</p>
+        <p>{fetching ? <DotWave size={45} speed={1} color="white" /> : celebrity}</p>
         <div className="FaceDiv">
           <img
             id="inputimage"
-            alt=""
+            alt="celebrity"
             src={imageUrl}
           />
-          <div
+          {calculated && <div
             className="bounding-box"
             style={{
               top: box.topRow,
@@ -19,8 +20,7 @@ const FaceRecognition = ({box, imageUrl, celebrity}) => {
               bottom: box.bottomRow,
               left: box.leftCol,
             }}
-          >
-          </div>
+          ></div>}
         </div>
       </div>
     </div>

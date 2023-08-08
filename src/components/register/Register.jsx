@@ -1,11 +1,13 @@
 import { useState } from "react";
 import './register.scss';
+import { DotPulse } from '@uiball/loaders';
 
 const Register = ({onRouteChange, loadUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [fetching, setFetching] = useState(false);
 
   const onNameChange = (event) => {
     setName(event.target.value);
@@ -18,6 +20,8 @@ const Register = ({onRouteChange, loadUser}) => {
   };
 
   const onSubmitSignIn = () => {
+    setMessage('');
+    setFetching(true);
     fetch("https://sharptechbackend.onrender.com/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -31,6 +35,7 @@ const Register = ({onRouteChange, loadUser}) => {
         if (res.status === 400) {
           setMessage('Incorrect form submission');
         }
+        setFetching(false);
         return (res.json());
       })
       .then((user) => {
@@ -84,6 +89,7 @@ const Register = ({onRouteChange, loadUser}) => {
           </button>
         </div>
       </div>
+      {fetching && <DotPulse size={40} speed={1} color="white" />}
       <p className="Message">{message}</p>
     </div>
   );

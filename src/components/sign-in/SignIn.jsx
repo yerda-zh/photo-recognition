@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "./signin.scss";
+import { DotPulse } from '@uiball/loaders';
 
 const SignIn = ({onRouteChange, loadUser}) => {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [fetching, setFetching] = useState(false);
 
   const onEmailChange = (event) => {
     setSignInEmail(event.target.value);
@@ -14,6 +16,8 @@ const SignIn = ({onRouteChange, loadUser}) => {
   };
 
   const onSubmitSignIn = () => {
+    setMessage('');
+    setFetching(true);
     fetch("https://sharptechbackend.onrender.com/signin", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -25,6 +29,7 @@ const SignIn = ({onRouteChange, loadUser}) => {
       if (res.status === 400) {
         setMessage('Incorrect form submission');
       }
+      setFetching(false);
       return (res.json());
     })
       .then((user) => {
@@ -33,7 +38,7 @@ const SignIn = ({onRouteChange, loadUser}) => {
           onRouteChange("home");
           setMessage('');
         }
-      })
+      });
     // I am fetching to the backend server, the fetch by default makes GET request so I have to specify to use post
     // I set method to post, and converted the object into json so that I can send it to the backend
     // then I get a response from back end. I setted up so that the backend would send json response
@@ -72,6 +77,7 @@ const SignIn = ({onRouteChange, loadUser}) => {
           Register
         </button>
       </div>
+      {fetching && <DotPulse size={40} speed={1} color="white" />}
       <p className="Message">{message}</p>
     </div>
   );
